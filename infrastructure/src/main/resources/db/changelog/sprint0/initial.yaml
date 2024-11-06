@@ -1,0 +1,70 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2024-10-22-01
+      author: Tim Van Meerbeeck
+      changes:
+        - createTable:
+            tableName: speler
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+              - column:
+                  name: naam
+                  type: varchar(255)  # Adjust the size as needed
+              - column:
+                  name: voornaam
+                  type: varchar(255)  # Adjust the size as needed
+              - column:
+                  name: creation_date
+                  type: timestamp
+              - column:
+                  name: modification_date
+                  type: timestamp
+                  constraints:
+                    nullable: true  # Modification date can be null
+              - column:
+                  name: version
+                  type: integer
+
+        - createTable:
+            tableName: positie
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+              - column:
+                  name: naam
+                  type: varchar(255)  # Adjust the size as needed
+              - column:
+                  name: creation_date
+                  type: timestamp
+              - column:
+                  name: modification_date
+                  type: timestamp
+                  constraints:
+                    nullable: true  # Modification date can be null
+              - column:
+                  name: version
+                  type: integer
+
+        - createTable:
+            tableName: speler_positie
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+              - column:
+                  name: quotering
+                  type: integer
+              - column:
+                  name: creation_date
+                  type: timestamp
+              - column:
+                  name: modification_date
+                  type: timestamp
+                  constraints:
+                    nullable: true  # Modification date can be null
+              - column:
+                  name: version
+                  type: integer

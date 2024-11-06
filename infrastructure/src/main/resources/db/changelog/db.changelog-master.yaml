@@ -1,0 +1,4 @@
+databaseChangeLog:
+  - include:
+      file: sprint0/initial.yaml
+      relativeToChangelogFile: true
