@@ -5,7 +5,6 @@ import timaar.tiiimspot.spi.stubs.PositiesStub;
 import timaar.tiiimspot.spi.stubs.SpelersStub;
 
 import java.util.Comparator;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -14,27 +13,33 @@ class MatchVoorbereidingAssemblerTest {
 
     @Test
     void testCreateMatchVoorbereiding() {
-        // Standard values for the test
+        // setup
         Integer aantalMatchDelen = 4;
         Integer matchdeelTijdInMinuten = 20;
+        Integer validationMaxTijdVerschilAllowed = 20;
+        PositiesStub positiesStub = new PositiesStub();
+        SpelersStub spelersStub = new SpelersStub();
+        MatchVoorbereidingAssembler matchVoorbereidingAssembler = new MatchVoorbereidingAssembler();
+        Selectie selectie = new Selectie(positiesStub.getPosities433(), spelersStub.getSpelers());
 
-        Selectie selectie = new Selectie(new PositiesStub().getPosities433(), new SpelersStub().getSpelers());
         // Call the method to create MatchVoorbereiding
-        MatchVoorbereiding matchVoorbereiding = new MatchVoorbereidingAssembler().createMatchVoorbereiding(selectie, aantalMatchDelen, matchdeelTijdInMinuten);
+        MatchVoorbereiding matchVoorbereiding = matchVoorbereidingAssembler.createMatchVoorbereiding(
+                selectie,
+                aantalMatchDelen,
+                matchdeelTijdInMinuten,
+                validationMaxTijdVerschilAllowed);
 
-        // Assert that the result is not null
+        // Assert that the result is not null and should not throw any exceptions
         assertNotNull(matchVoorbereiding, "MatchVoorbereiding should not be null");
 
         printPlayers(matchVoorbereiding);
     }
 
     private void printPlayers(MatchVoorbereiding matchVoorbereiding) {
-        // Print out players for each MatchDeel
-        for (int i = 0; i < matchVoorbereiding.match().matchDeel().size(); i++) {
-            MatchDeel matchDeel = matchVoorbereiding.match().matchDeel().get(i);
-            System.out.println("Match Deel " + (i + 1) + ":");
+        int deelIndex = 1;
+        for (MatchDeel matchDeel : matchVoorbereiding.match().matchDelen()) {
+            System.out.println("Match Deel " + deelIndex++ + ":");
 
-            // Sort positions based on positieNummer, handling nulls by placing them last
             matchDeel.opstelling().entrySet().stream()
                     .sorted(Comparator.comparing(
                             entry -> entry.getKey().positieNummer(),
@@ -42,16 +47,11 @@ class MatchVoorbereidingAssemblerTest {
                     ))
                     .forEach(entry -> {
                         Positie positie = entry.getKey();
-                        List<Speler> spelers = entry.getValue(); // Get the list of players for this position
-
-                        String positieNummer = (positie.positieNummer() != null) ? String.valueOf(positie.positieNummer()) : "N/A";
-
-                        // Create a comma-separated list of player names
-                        String spelerNamen = spelers.stream()
+                        String positieNummer = positie.positieNummer() != null ? String.valueOf(positie.positieNummer()) : "N/A";
+                        String spelerNamen = entry.getValue().stream()
                                 .map(speler -> speler.naam() + " " + speler.voornaam())
                                 .collect(Collectors.joining(", "));
 
-                        // Print the position and the list of player names
                         System.out.println(positieNummer + " - " + positie.naam() + ": " + spelerNamen);
                     });
         }

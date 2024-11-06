@@ -3,6 +3,12 @@ package timaar.tiiimspot;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Er moeten posities worden ingevuld adhv een lijst spelers
+ *
+ * @param posities
+ * @param spelers
+ */
 public record Selectie(List<Positie> posities, List<Speler> spelers) {
     public Selectie(List<Positie> posities, List<Speler> spelers) {
 

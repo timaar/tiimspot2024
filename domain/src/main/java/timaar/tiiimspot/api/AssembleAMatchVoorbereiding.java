@@ -8,9 +8,9 @@ public interface AssembleAMatchVoorbereiding {
     Integer DEFAULT_AANTAL_MATCH_DELEN = 4;
     Integer DEFAULT_AANTAL_MATCHDEEL_TIJD_IN_MINTEN = 20;
 
-    MatchVoorbereiding createMatchVoorbereiding(Selectie selectie, Integer aantalMatchDelen, Integer matchdeelTijdInMinuten);
+    MatchVoorbereiding createMatchVoorbereiding(Selectie selectie, Integer aantalMatchDelen, Integer matchdeelTijdInMinuten, Integer validatieMaxTijdVerschilTussenMaxEnMin);
 
     default MatchVoorbereiding createMatchVoorbereiding(Selectie selectie) {
-        return this.createMatchVoorbereiding(selectie, DEFAULT_AANTAL_MATCH_DELEN, DEFAULT_AANTAL_MATCHDEEL_TIJD_IN_MINTEN);
+        return this.createMatchVoorbereiding(selectie, DEFAULT_AANTAL_MATCH_DELEN, DEFAULT_AANTAL_MATCHDEEL_TIJD_IN_MINTEN, DEFAULT_AANTAL_MATCHDEEL_TIJD_IN_MINTEN);
     }
 }

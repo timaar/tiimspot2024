@@ -24,7 +24,18 @@ public final class PositiesStub implements Posities {
 
     @Override
     public List<Positie> getPosities433() {
-        return List.of(KEEPER, RECHTSBACK, RECHTER_CENTRALE_VERDEDIGER, LINKER_CENTRALE_VERDEDIGER, LINKSBACK, VERDEDIGENDE_MIDDENVELDER, BOX_TO_BOX_MIDDENVELDER, AANVALLENDE_MIDDENVELDER,
-                RECHTERVLEUGELAANVALLER, LINKERVLEUGELAANVALLER, SPITS, BANK);
+        return List.of(
+                KEEPER,
+                RECHTSBACK,
+                RECHTER_CENTRALE_VERDEDIGER,
+                LINKER_CENTRALE_VERDEDIGER,
+                LINKSBACK,
+                VERDEDIGENDE_MIDDENVELDER,
+                BOX_TO_BOX_MIDDENVELDER,
+                AANVALLENDE_MIDDENVELDER,
+                RECHTERVLEUGELAANVALLER,
+                LINKERVLEUGELAANVALLER,
+                SPITS,
+                BANK);
     }
 }

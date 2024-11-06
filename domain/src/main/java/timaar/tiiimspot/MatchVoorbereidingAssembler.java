@@ -30,7 +30,7 @@ public class MatchVoorbereidingAssembler implements AssembleAMatchVoorbereiding 
     );
 
     @Override
-    public MatchVoorbereiding createMatchVoorbereiding(Selectie selectie, Integer aantalMatchDelen, Integer matchdeelTijdInMinuten) {
+    public MatchVoorbereiding createMatchVoorbereiding(Selectie selectie, Integer aantalMatchDelen, Integer matchdeelTijdInMinuten, Integer validatieMaxTijdVerschilTussenMaxEnMin) {
         // Track player time spent on the field
         Map<Speler, Integer> spelerTijd = new HashMap<>();
         for (Speler speler : selectie.spelers()) {
@@ -114,13 +114,15 @@ public class MatchVoorbereidingAssembler implements AssembleAMatchVoorbereiding 
             }
 
             // Create a MatchDeel and add it to the match preparation
-            matchDelen.add(new MatchDeel(opstelling));
+            matchDelen.add(new MatchDeel(opstelling, matchdeelTijdInMinuten));
         }
 
-        // Validate equal playtime with a maximum difference of 20 minutes
-        validateEqualPlayTime(spelerTijd, matchdeelTijdInMinuten, aantalMatchDelen);
+        Match match = new Match(matchDelen);
 
-        return new MatchVoorbereiding(new Match(matchDelen));
+        // Validate equal playtime with a maximum difference of 20 minutes
+        validateEqualPlayTime(spelerTijd, match, validatieMaxTijdVerschilTussenMaxEnMin);
+
+        return new MatchVoorbereiding(match);
     }
 
     private void addSpelerToOpstelling(Map<Positie, List<Speler>> opstelling, Speler selectedPlayer, Positie positie, Set<Speler> usedPlayers, Integer matchdeelTijdInMinuten, Map<Speler, Integer> spelerTijd) {
@@ -157,16 +159,26 @@ public class MatchVoorbereidingAssembler implements AssembleAMatchVoorbereiding 
                 .orElseThrow(() -> new IllegalArgumentException("No suitable player found for position: " + positie.naam()));
     }
 
-    private void validateEqualPlayTime(Map<Speler, Integer> spelerTijd, Integer matchdeelTijdInMinuten, Integer aantalMatchDelen) {
+    private void validateEqualPlayTime(Map<Speler, Integer> spelerTijd, Integer matchdeelTijdInMinuten, Integer aantalMatchDelen, Integer validatieMaxTijdVerschilTussenMaxEnMin) {
         int totalPlayingTime = matchdeelTijdInMinuten * aantalMatchDelen;
         int averagePlayingTime = calculateAverage(spelerTijd);
 
-        // Define the maximum allowed difference in playtime
-        int maxAllowedDifference = 20;
+        for (Map.Entry<Speler, Integer> entry : spelerTijd.entrySet()) {
+            int tijd = entry.getValue();
+            if (Math.abs(tijd - averagePlayingTime) > validatieMaxTijdVerschilTussenMaxEnMin) {
+                throw new IllegalArgumentException("Player " + entry.getKey().naam() + " plays an unequal amount of time: " + tijd + " minutes. Average play time is: " + averagePlayingTime + " totalPlayingTime: " + totalPlayingTime);
+            }
+        }
+    }
+
+
+    private void validateEqualPlayTime(Map<Speler, Integer> spelerTijd, Match match, Integer validatieMaxTijdVerschilTussenMaxEnMin) {
+        int totalPlayingTime = match.totalPlayingTime();
+        int averagePlayingTime = calculateAverage(spelerTijd);
 
         for (Map.Entry<Speler, Integer> entry : spelerTijd.entrySet()) {
             int tijd = entry.getValue();
-            if (Math.abs(tijd - averagePlayingTime) > maxAllowedDifference) {
+            if (Math.abs(tijd - averagePlayingTime) > validatieMaxTijdVerschilTussenMaxEnMin) {
                 throw new IllegalArgumentException("Player " + entry.getKey().naam() + " plays an unequal amount of time: " + tijd + " minutes. Average play time is: " + averagePlayingTime + " totalPlayingTime: " + totalPlayingTime);
             }
         }

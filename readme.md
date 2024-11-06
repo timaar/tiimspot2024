@@ -39,3 +39,6 @@ Ik wil pas dat mijn pom overerft van SpringBoot parent in de infrastructure.
 
 I have already quite some experience with Hexagonal Architecture but the implementation of the talk was so clear that I needed to do an example of this on my own. The Stubs are in the domain.
 
+
+### Challenge business logic
+* Business logic is harder then expected (my logic to pick a team)
