@@ -1,7 +1,7 @@
 package timaar.tiiimspot.spi.stubs;
 
 import ddd.Stub;
-import timaar.tiiimspot.Positie;
+import timaar.tiiimspot.domain.Positie;
 import timaar.tiiimspot.spi.Posities;
 
 import java.util.List;

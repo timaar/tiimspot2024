@@ -1,4 +1,4 @@
-package timaar.tiiimspot;
+package timaar.tiiimspot.domain;
 
 import java.util.Map;
 import java.util.UUID;

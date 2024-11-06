@@ -1,7 +1,13 @@
 package timaar.tiiimspot;
 
 import ddd.DomainService;
-import timaar.tiiimspot.api.AssembleAMatchVoorbereiding;
+import timaar.tiiimspot.api.MaakEenMatchVoorbereiding;
+import timaar.tiiimspot.domain.Match;
+import timaar.tiiimspot.domain.MatchDeel;
+import timaar.tiiimspot.domain.MatchVoorbereiding;
+import timaar.tiiimspot.domain.Positie;
+import timaar.tiiimspot.domain.Selectie;
+import timaar.tiiimspot.domain.Speler;
 import timaar.tiiimspot.spi.stubs.PositiesStub;
 
 import java.util.ArrayList;
@@ -13,7 +19,7 @@ import java.util.Map;
 import java.util.Set;
 
 @DomainService
-public class MatchVoorbereidingAssembler implements AssembleAMatchVoorbereiding {
+public class MatchVoorbereidingMaker implements MaakEenMatchVoorbereiding {
 
     private static final List<Positie> POSITION_PRIORITY = List.of(
             PositiesStub.KEEPER,
@@ -30,7 +36,7 @@ public class MatchVoorbereidingAssembler implements AssembleAMatchVoorbereiding 
     );
 
     @Override
-    public MatchVoorbereiding createMatchVoorbereiding(Selectie selectie, Integer aantalMatchDelen, Integer matchdeelTijdInMinuten, Integer validatieMaxTijdVerschilTussenMaxEnMin) {
+    public MatchVoorbereiding maken(Selectie selectie, Integer aantalMatchDelen, Integer matchdeelTijdInMinuten, Integer validatieMaxTijdVerschilTussenMaxEnMin) {
         // Track player time spent on the field
         Map<Speler, Integer> spelerTijd = new HashMap<>();
         for (Speler speler : selectie.spelers()) {

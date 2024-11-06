@@ -1,4 +1,4 @@
-package timaar.tiiimspot;
+package timaar.tiiimspot.domain;
 
 /**
  * Een matchvoorbereiding heeft een match.

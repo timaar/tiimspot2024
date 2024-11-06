@@ -1,8 +1,8 @@
 package timaar.tiiimspot.spi.stubs;
 
 import ddd.Stub;
-import timaar.tiiimspot.Positie;
-import timaar.tiiimspot.Speler;
+import timaar.tiiimspot.domain.Positie;
+import timaar.tiiimspot.domain.Speler;
 import timaar.tiiimspot.spi.Spelers;
 
 import java.util.ArrayList;

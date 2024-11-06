@@ -1,6 +1,10 @@
 package timaar.tiiimspot;
 
 import org.junit.jupiter.api.Test;
+import timaar.tiiimspot.domain.MatchDeel;
+import timaar.tiiimspot.domain.MatchVoorbereiding;
+import timaar.tiiimspot.domain.Positie;
+import timaar.tiiimspot.domain.Selectie;
 import timaar.tiiimspot.spi.stubs.PositiesStub;
 import timaar.tiiimspot.spi.stubs.SpelersStub;
 
@@ -9,21 +13,21 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class MatchVoorbereidingAssemblerTest {
+class MatchVoorbereidingMakerTest {
 
     @Test
-    void testCreateMatchVoorbereiding() {
+    void testMaken() {
         // setup
         Integer aantalMatchDelen = 4;
         Integer matchdeelTijdInMinuten = 20;
         Integer validationMaxTijdVerschilAllowed = 20;
         PositiesStub positiesStub = new PositiesStub();
         SpelersStub spelersStub = new SpelersStub();
-        MatchVoorbereidingAssembler matchVoorbereidingAssembler = new MatchVoorbereidingAssembler();
+        MatchVoorbereidingMaker matchVoorbereidingAssembler = new MatchVoorbereidingMaker();
         Selectie selectie = new Selectie(positiesStub.getPosities433(), spelersStub.getSpelers());
 
         // Call the method to create MatchVoorbereiding
-        MatchVoorbereiding matchVoorbereiding = matchVoorbereidingAssembler.createMatchVoorbereiding(
+        MatchVoorbereiding matchVoorbereiding = matchVoorbereidingAssembler.maken(
                 selectie,
                 aantalMatchDelen,
                 matchdeelTijdInMinuten,

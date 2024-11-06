@@ -1,6 +1,6 @@
 package timaar.tiiimspot.spi;
 
-import timaar.tiiimspot.Positie;
+import timaar.tiiimspot.domain.Positie;
 
 import java.util.List;
 
