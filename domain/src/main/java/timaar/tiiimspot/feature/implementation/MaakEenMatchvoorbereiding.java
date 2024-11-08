@@ -1,14 +1,14 @@
-package timaar.tiiimspot;
+package timaar.tiiimspot.feature.implementation;
 
 import ddd.DomainService;
-import timaar.tiiimspot.api.MaakEenMatchVoorbereiding;
 import timaar.tiiimspot.domain.Match;
 import timaar.tiiimspot.domain.MatchDeel;
-import timaar.tiiimspot.domain.MatchVoorbereiding;
+import timaar.tiiimspot.domain.Matchvoorbereiding;
 import timaar.tiiimspot.domain.Positie;
 import timaar.tiiimspot.domain.Selectie;
 import timaar.tiiimspot.domain.Speler;
-import timaar.tiiimspot.spi.stubs.PositiesStub;
+import timaar.tiiimspot.feature.MaakEenMatchvoorbereidingFeature;
+import timaar.tiiimspot.spi.stubs.PositiesInventoryStub;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -19,24 +19,24 @@ import java.util.Map;
 import java.util.Set;
 
 @DomainService
-public class MatchVoorbereidingMaker implements MaakEenMatchVoorbereiding {
+public class MaakEenMatchvoorbereiding implements MaakEenMatchvoorbereidingFeature {
 
     private static final List<Positie> POSITION_PRIORITY = List.of(
-            PositiesStub.KEEPER,
-            PositiesStub.SPITS,
-            PositiesStub.AANVALLENDE_MIDDENVELDER,
-            PositiesStub.VERDEDIGENDE_MIDDENVELDER,
-            PositiesStub.BOX_TO_BOX_MIDDENVELDER,
-            PositiesStub.LINKER_CENTRALE_VERDEDIGER,
-            PositiesStub.RECHTER_CENTRALE_VERDEDIGER,
-            PositiesStub.LINKERVLEUGELAANVALLER,
-            PositiesStub.RECHTERVLEUGELAANVALLER,
-            PositiesStub.LINKSBACK,
-            PositiesStub.RECHTSBACK
+            PositiesInventoryStub.KEEPER,
+            PositiesInventoryStub.SPITS,
+            PositiesInventoryStub.AANVALLENDE_MIDDENVELDER,
+            PositiesInventoryStub.VERDEDIGENDE_MIDDENVELDER,
+            PositiesInventoryStub.BOX_TO_BOX_MIDDENVELDER,
+            PositiesInventoryStub.LINKER_CENTRALE_VERDEDIGER,
+            PositiesInventoryStub.RECHTER_CENTRALE_VERDEDIGER,
+            PositiesInventoryStub.LINKERVLEUGELAANVALLER,
+            PositiesInventoryStub.RECHTERVLEUGELAANVALLER,
+            PositiesInventoryStub.LINKSBACK,
+            PositiesInventoryStub.RECHTSBACK
     );
 
     @Override
-    public MatchVoorbereiding maken(Selectie selectie, Integer aantalMatchDelen, Integer matchdeelTijdInMinuten, Integer validatieMaxTijdVerschilTussenMaxEnMin) {
+    public Matchvoorbereiding maken(Selectie selectie, Integer aantalMatchDelen, Integer matchdeelTijdInMinuten, Integer validatieMaxTijdVerschilTussenMaxEnMin) {
         // Track player time spent on the field
         Map<Speler, Integer> spelerTijd = new HashMap<>();
         for (Speler speler : selectie.spelers()) {
@@ -115,7 +115,7 @@ public class MatchVoorbereidingMaker implements MaakEenMatchVoorbereiding {
                     .toList();
 
             if (!bankPlayers.isEmpty()) {
-                opstelling.computeIfAbsent(PositiesStub.BANK, k -> new ArrayList<>()).addAll(bankPlayers);
+                opstelling.computeIfAbsent(PositiesInventoryStub.BANK, k -> new ArrayList<>()).addAll(bankPlayers);
                 bankPlayers.forEach(player -> benchPlayers.merge(player, 1, Integer::sum));
             }
 
@@ -128,13 +128,13 @@ public class MatchVoorbereidingMaker implements MaakEenMatchVoorbereiding {
         // Validate equal playtime with a maximum difference of 20 minutes
         validateEqualPlayTime(spelerTijd, match, validatieMaxTijdVerschilTussenMaxEnMin);
 
-        return new MatchVoorbereiding(match);
+        return new Matchvoorbereiding(match);
     }
 
     private void addSpelerToOpstelling(Map<Positie, List<Speler>> opstelling, Speler selectedPlayer, Positie positie, Set<Speler> usedPlayers, Integer matchdeelTijdInMinuten, Map<Speler, Integer> spelerTijd) {
         opstelling.computeIfAbsent(positie, k -> new ArrayList<>()).add(selectedPlayer);
         usedPlayers.add(selectedPlayer);
-        if (!PositiesStub.BANK.equals(positie)) {
+        if (!PositiesInventoryStub.BANK.equals(positie)) {
             spelerTijd.put(selectedPlayer, spelerTijd.get(selectedPlayer) + matchdeelTijdInMinuten);
         }
     }
@@ -144,7 +144,7 @@ public class MatchVoorbereidingMaker implements MaakEenMatchVoorbereiding {
                                            Set<Speler> usedPlayers,
                                            Map<Speler, Integer> spelerTijd) {
         // If selecting for the bench, pick the player with the most playing time
-        if (positie.equals(PositiesStub.BANK)) {
+        if (positie.equals(PositiesInventoryStub.BANK)) {
             return spelers.stream()
                     .filter(speler -> !usedPlayers.contains(speler))
                     .findFirst()

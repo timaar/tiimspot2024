@@ -1,33 +1,33 @@
-package timaar.tiiimspot;
+package timaar.tiiimspot.feature.implementation;
 
 import org.junit.jupiter.api.Test;
 import timaar.tiiimspot.domain.MatchDeel;
-import timaar.tiiimspot.domain.MatchVoorbereiding;
+import timaar.tiiimspot.domain.Matchvoorbereiding;
 import timaar.tiiimspot.domain.Positie;
 import timaar.tiiimspot.domain.Selectie;
-import timaar.tiiimspot.spi.stubs.PositiesStub;
-import timaar.tiiimspot.spi.stubs.SpelersStub;
+import timaar.tiiimspot.spi.stubs.PositiesInventoryStub;
+import timaar.tiiimspot.spi.stubs.SpelersInventoryStub;
 
 import java.util.Comparator;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class MatchVoorbereidingMakerTest {
+class MaakEenMatchvoorbereidingTest {
 
     @Test
     void testMaken() {
         // setup
-        Integer aantalMatchDelen = 4;
-        Integer matchdeelTijdInMinuten = 20;
-        Integer validationMaxTijdVerschilAllowed = 20;
-        PositiesStub positiesStub = new PositiesStub();
-        SpelersStub spelersStub = new SpelersStub();
-        MatchVoorbereidingMaker matchVoorbereidingAssembler = new MatchVoorbereidingMaker();
-        Selectie selectie = new Selectie(positiesStub.getPosities433(), spelersStub.getSpelers());
+        var aantalMatchDelen = 4;
+        var matchdeelTijdInMinuten = 20;
+        var validationMaxTijdVerschilAllowed = 20;
+        var positiesInventoryStub = new PositiesInventoryStub();
+        var spelersInventoryStub = new SpelersInventoryStub();
+        var maakEenMatchVoorbereiding = new MaakEenMatchvoorbereiding();
+        var selectie = new Selectie(positiesInventoryStub.getPosities433(), spelersInventoryStub.getSpelers());
 
         // Call the method to create MatchVoorbereiding
-        MatchVoorbereiding matchVoorbereiding = matchVoorbereidingAssembler.maken(
+        Matchvoorbereiding matchVoorbereiding = maakEenMatchVoorbereiding.maken(
                 selectie,
                 aantalMatchDelen,
                 matchdeelTijdInMinuten,
@@ -39,8 +39,8 @@ class MatchVoorbereidingMakerTest {
         printPlayers(matchVoorbereiding);
     }
 
-    private void printPlayers(MatchVoorbereiding matchVoorbereiding) {
-        int deelIndex = 1;
+    private void printPlayers(Matchvoorbereiding matchVoorbereiding) {
+        var deelIndex = 1;
         for (MatchDeel matchDeel : matchVoorbereiding.match().matchDelen()) {
             System.out.println("Match Deel " + deelIndex++ + ":");
 
