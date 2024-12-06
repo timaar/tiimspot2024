@@ -4,7 +4,7 @@ import timaar.tiiimspot.domain.Speler;
 
 import java.util.List;
 
-public interface SpelersInventory {
+public interface SpelerInventory {
 
     List<Speler> getSpelers();
 

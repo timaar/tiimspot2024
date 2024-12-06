@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Stub
-public class MatchvoorbereidingInventoryStub implements MatchInventory {
+public class MatchInventoryStub implements MatchInventory {
 
     private final Map<UUID, Match> matches = new HashMap<>();
 

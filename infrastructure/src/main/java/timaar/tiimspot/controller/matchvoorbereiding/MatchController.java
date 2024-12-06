@@ -11,8 +11,8 @@ import timaar.tiiimspot.domain.Match;
 import timaar.tiiimspot.domain.Selectie;
 import timaar.tiiimspot.feature.MaakEenMatchvoorbereidingFeature;
 import timaar.tiiimspot.spi.MatchInventory;
-import timaar.tiiimspot.spi.stubs.PositiesInventoryStub;
-import timaar.tiiimspot.spi.stubs.SpelersInventoryStub;
+import timaar.tiiimspot.spi.stubs.PositieInventoryStub;
+import timaar.tiiimspot.spi.stubs.SpelerInventoryStub;
 import timaar.tiimspot.controller.matchvoorbereiding.dto.request.MatchRequestDto;
 import timaar.tiimspot.controller.matchvoorbereiding.dto.response.MatchResponseDto;
 
@@ -40,8 +40,8 @@ public class MatchController {
     @PostMapping("/maakEenVoorbereiding")
     public ResponseEntity<MatchResponseDto> maakMatchVoorbereiding(@RequestBody MatchRequestDto matchRequestDto) {
         // TODO transform/map requesdto to selectie
-        var matchVoorbereiding = maakEenMatchVoorbereiding.maken(new Selectie(new PositiesInventoryStub().getPosities433(), new SpelersInventoryStub().getSpelers()));
-        var matchvoorbereidingAI = maakEenMatchVoorbereiding.makenByAI(new Selectie(new PositiesInventoryStub().getPosities433(), new SpelersInventoryStub().getSpelers()));
+        var matchVoorbereiding = maakEenMatchVoorbereiding.maken(new Selectie(new PositieInventoryStub().getPosities433(), new SpelerInventoryStub().getSpelers()));
+        var matchvoorbereidingAI = maakEenMatchVoorbereiding.makenByAI(new Selectie(new PositieInventoryStub().getPosities433(), new SpelerInventoryStub().getSpelers()));
         var match = new Match(List.of(matchVoorbereiding, matchvoorbereidingAI));
 
         return created(fromMethodCall(on(this.getClass())

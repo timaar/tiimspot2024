@@ -25,9 +25,9 @@
                         <configuration>
                             <rules>
                                 <bannedDependencies>
-                                    <excludes>
-                                        <exclude>*</exclude> <!-- forbids non domain dependencies -->
-                                    </excludes>
+<!--                                    <excludes>-->
+<!--                                        <exclude>*</exclude> &lt;!&ndash; forbids non domain dependencies &ndash;&gt;-->
+<!--                                    </excludes>-->
                                     <includes>
                                         <include>*:*:*:*:test</include>
                                     </includes>

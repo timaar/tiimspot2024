@@ -2,12 +2,12 @@ package timaar.tiiimspot.spi.stubs;
 
 import ddd.Stub;
 import timaar.tiiimspot.domain.Positie;
-import timaar.tiiimspot.spi.PositiesInventory;
+import timaar.tiiimspot.spi.PositieInventory;
 
 import java.util.List;
 
 @Stub
-public final class PositiesInventoryStub implements PositiesInventory {
+public final class PositieInventoryStub implements PositieInventory {
 
     public static final Positie KEEPER = new Positie("Keeper", 1,1);
     public static final Positie RECHTSBACK = new Positie("Rechtsback", 2,1);

@@ -4,7 +4,7 @@ import timaar.tiiimspot.domain.Positie;
 
 import java.util.List;
 
-public interface PositiesInventory {
+public interface PositieInventory {
 
     List<Positie> getPosities433();
 }

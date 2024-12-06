@@ -3,16 +3,17 @@ package timaar.tiiimspot.feature.implementation;
 import org.junit.jupiter.api.Test;
 import timaar.tiiimspot.domain.MatchDeel;
 import timaar.tiiimspot.domain.Matchvoorbereiding;
+import timaar.tiiimspot.domain.MatchvoorbereidingGenerationType;
 import timaar.tiiimspot.domain.Positie;
 import timaar.tiiimspot.domain.Selectie;
 import timaar.tiiimspot.spi.stubs.MaakEenMatchvoorbeidingAIStub;
-import timaar.tiiimspot.spi.stubs.PositiesInventoryStub;
-import timaar.tiiimspot.spi.stubs.SpelersInventoryStub;
+import timaar.tiiimspot.spi.stubs.PositieInventoryStub;
+import timaar.tiiimspot.spi.stubs.SpelerInventoryStub;
 
 import java.util.Comparator;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class MaakEenMatchvoorbereidingTest {
 
@@ -22,8 +23,8 @@ class MaakEenMatchvoorbereidingTest {
         var aantalMatchDelen = 4;
         var matchdeelTijdInMinuten = 20;
         var validationMaxTijdVerschilAllowed = 20;
-        var positiesInventoryStub = new PositiesInventoryStub();
-        var spelersInventoryStub = new SpelersInventoryStub();
+        var positiesInventoryStub = new PositieInventoryStub();
+        var spelersInventoryStub = new SpelerInventoryStub();
         var maakEenMatchVoorbereiding = new MaakEenMatchvoorbereiding(new MaakEenMatchvoorbeidingAIStub());
         var selectie = new Selectie(positiesInventoryStub.getPosities433(), spelersInventoryStub.getSpelers());
 
@@ -32,10 +33,36 @@ class MaakEenMatchvoorbereidingTest {
                 selectie,
                 aantalMatchDelen,
                 matchdeelTijdInMinuten,
-                validationMaxTijdVerschilAllowed);
+                validationMaxTijdVerschilAllowed,
+                Boolean.FALSE);
 
-        // Assert that the result is not null and should not throw any exceptions
-        assertNotNull(matchVoorbereiding, "MatchVoorbereiding should not be null");
+        assertThat(matchVoorbereiding).isNotNull();
+
+        printPlayers(matchVoorbereiding);
+    }
+
+    @Test
+    void testMakenByAI() {
+        // setup
+        var aantalMatchDelen = 4;
+        var matchdeelTijdInMinuten = 20;
+        var validationMaxTijdVerschilAllowed = 20;
+        var positiesInventoryStub = new PositieInventoryStub();
+        var spelersInventoryStub = new SpelerInventoryStub();
+        var maakEenMatchVoorbereiding = new MaakEenMatchvoorbereiding(new MaakEenMatchvoorbeidingAIStub());
+        var selectie = new Selectie(positiesInventoryStub.getPosities433(), spelersInventoryStub.getSpelers());
+
+        // Call the method to create MatchVoorbereiding
+        Matchvoorbereiding matchVoorbereiding = maakEenMatchVoorbereiding.maken(
+                selectie,
+                aantalMatchDelen,
+                matchdeelTijdInMinuten,
+                validationMaxTijdVerschilAllowed,
+                Boolean.TRUE
+        );
+
+        assertThat(matchVoorbereiding).isNotNull();
+        assertThat(matchVoorbereiding.type()).isEqualTo(MatchvoorbereidingGenerationType.AI);
 
         printPlayers(matchVoorbereiding);
     }
