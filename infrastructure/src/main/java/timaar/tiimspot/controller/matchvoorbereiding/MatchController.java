@@ -7,14 +7,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import timaar.tiiimspot.domain.Match;
 import timaar.tiiimspot.domain.Selectie;
 import timaar.tiiimspot.feature.MaakEenMatchvoorbereidingFeature;
-import timaar.tiiimspot.spi.MatchvoorbereidingInventory;
+import timaar.tiiimspot.spi.MaakEenMatchvoorbeidingAI;
+import timaar.tiiimspot.spi.MatchInventory;
 import timaar.tiiimspot.spi.stubs.PositiesInventoryStub;
 import timaar.tiiimspot.spi.stubs.SpelersInventoryStub;
-import timaar.tiimspot.controller.matchvoorbereiding.dto.request.MatchVoorbereidingRequestDto;
-import timaar.tiimspot.controller.matchvoorbereiding.dto.response.MatchVoorbereidingResponseDto;
+import timaar.tiimspot.controller.matchvoorbereiding.dto.request.MatchRequestDto;
+import timaar.tiimspot.controller.matchvoorbereiding.dto.response.MatchResponseDto;
 
+import java.util.List;
 import java.util.UUID;
 
 import static org.springframework.http.ResponseEntity.created;
@@ -24,21 +27,26 @@ import static org.springframework.web.servlet.mvc.method.annotation.MvcUriCompon
 
 @RestController
 @RequestMapping("/match")
-public class MatchvoorbereidingController {
+public class MatchController {
 
     private MaakEenMatchvoorbereidingFeature maakEenMatchVoorbereiding;
-    private MatchvoorbereidingInventory matchvoorbereidingInventory;
+    private MaakEenMatchvoorbeidingAI maakEenMatchvoorbereidingAI;
+    private MatchInventory matchInventory;
 
     @PostMapping("/maakEenVoorbereiding")
-    public ResponseEntity<MatchVoorbereidingResponseDto> maakMatchVoorbereiding(@RequestBody MatchVoorbereidingRequestDto matchVoorbereidingRequestDto) {
+    public ResponseEntity<MatchResponseDto> maakMatchVoorbereiding(@RequestBody MatchRequestDto matchRequestDto) {
         // TODO transform/map requesdto to selectie
         var matchVoorbereiding = maakEenMatchVoorbereiding.maken(new Selectie(new PositiesInventoryStub().getPosities433(), new SpelersInventoryStub().getSpelers()));
-        return created(fromMethodCall(on(this.getClass()).getMatchVoorbereiding(matchVoorbereiding.id())).build().toUri())
-                .body(new MatchVoorbereidingResponseDto(matchVoorbereiding));
+        var matchvoorbereidingAI = maakEenMatchvoorbereidingAI.maken(new Selectie(new PositiesInventoryStub().getPosities433(), new SpelersInventoryStub().getSpelers()));
+        var match = new Match(List.of(matchVoorbereiding, matchvoorbereidingAI));
+
+        return created(fromMethodCall(on(this.getClass())
+                .getMatch(match.id())).build().toUri())
+                .body(new MatchResponseDto(match));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MatchVoorbereidingResponseDto> getMatchVoorbereiding(@PathVariable UUID id) {
-        return ok(new MatchVoorbereidingResponseDto(matchvoorbereidingInventory.getById(id)));
+    public ResponseEntity<MatchResponseDto> getMatch(@PathVariable UUID id) {
+        return ok(new MatchResponseDto(matchInventory.getById(id)));
     }
 }

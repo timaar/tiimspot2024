@@ -41,7 +41,7 @@ class MaakEenMatchvoorbereidingTest {
 
     private void printPlayers(Matchvoorbereiding matchVoorbereiding) {
         var deelIndex = 1;
-        for (MatchDeel matchDeel : matchVoorbereiding.match().matchDelen()) {
+        for (MatchDeel matchDeel : matchVoorbereiding.matchDelen()) {
             System.out.println("Match Deel " + deelIndex++ + ":");
 
             matchDeel.opstelling().entrySet().stream()

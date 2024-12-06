@@ -1,25 +1,25 @@
 package timaar.tiiimspot.spi.stubs;
 
 import ddd.Stub;
-import timaar.tiiimspot.domain.Matchvoorbereiding;
-import timaar.tiiimspot.spi.MatchvoorbereidingInventory;
+import timaar.tiiimspot.domain.Match;
+import timaar.tiiimspot.spi.MatchInventory;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 @Stub
-public class MatchvoorbereidingInventoryStub implements MatchvoorbereidingInventory {
+public class MatchvoorbereidingInventoryStub implements MatchInventory {
 
-    private final Map<UUID, Matchvoorbereiding> matchvoorbereidingen = new HashMap<>();
+    private final Map<UUID, Match> matches = new HashMap<>();
 
     @Override
-    public void saveMatchvoorbereiding(Matchvoorbereiding matchVoorbereiding) {
-        matchvoorbereidingen.put(matchVoorbereiding.id(), matchVoorbereiding);
+    public void saveMatch(Match match) {
+        matches.put(match.id(), match);
     }
 
     @Override
-    public Matchvoorbereiding getById(UUID id) {
-        return matchvoorbereidingen.get(id);
+    public Match getById(UUID id) {
+        return matches.get(id);
     }
 }

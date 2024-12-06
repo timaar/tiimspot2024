@@ -1,9 +1,9 @@
 package timaar.tiiimspot.feature.implementation;
 
 import ddd.DomainService;
-import timaar.tiiimspot.domain.Match;
 import timaar.tiiimspot.domain.MatchDeel;
 import timaar.tiiimspot.domain.Matchvoorbereiding;
+import timaar.tiiimspot.domain.MatchvoorbereidingGenerationType;
 import timaar.tiiimspot.domain.Positie;
 import timaar.tiiimspot.domain.Selectie;
 import timaar.tiiimspot.domain.Speler;
@@ -123,12 +123,12 @@ public class MaakEenMatchvoorbereiding implements MaakEenMatchvoorbereidingFeatu
             matchDelen.add(new MatchDeel(opstelling, matchdeelTijdInMinuten));
         }
 
-        Match match = new Match(matchDelen);
+        Matchvoorbereiding matchvoorbereiding = new Matchvoorbereiding(matchDelen, MatchvoorbereidingGenerationType.DEFAULT);
 
         // Validate equal playtime with a maximum difference of 20 minutes
-        validateEqualPlayTime(spelerTijd, match, validatieMaxTijdVerschilTussenMaxEnMin);
+        validateEqualPlayTime(spelerTijd, matchvoorbereiding, validatieMaxTijdVerschilTussenMaxEnMin);
 
-        return new Matchvoorbereiding(match);
+        return matchvoorbereiding;
     }
 
     private void addSpelerToOpstelling(Map<Positie, List<Speler>> opstelling, Speler selectedPlayer, Positie positie, Set<Speler> usedPlayers, Integer matchdeelTijdInMinuten, Map<Speler, Integer> spelerTijd) {
@@ -178,8 +178,8 @@ public class MaakEenMatchvoorbereiding implements MaakEenMatchvoorbereidingFeatu
     }
 
 
-    private void validateEqualPlayTime(Map<Speler, Integer> spelerTijd, Match match, Integer validatieMaxTijdVerschilTussenMaxEnMin) {
-        int totalPlayingTime = match.totalPlayingTime();
+    private void validateEqualPlayTime(Map<Speler, Integer> spelerTijd, Matchvoorbereiding matchvoorbereiding, Integer validatieMaxTijdVerschilTussenMaxEnMin) {
+        int totalPlayingTime = matchvoorbereiding.totalPlayingTime();
         int averagePlayingTime = calculateAverage(spelerTijd);
 
         for (Map.Entry<Speler, Integer> entry : spelerTijd.entrySet()) {
