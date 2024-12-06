@@ -21,11 +21,4 @@ public class MatchVoorbereidingControllerTest {
     @Autowired
     private MatchInventory matchvoorbereidingInventory;
 
-
-//    @TestConfiguration
-//    @ComponentScan(
-//            basePackageClasses = {Match.class},
-//            includeFilters = {@ComponentScan.Filter(type = FilterType.ANNOTATION, classes = {Stub.class})})
-//    public class StubConfiguration {
-//    }
 }

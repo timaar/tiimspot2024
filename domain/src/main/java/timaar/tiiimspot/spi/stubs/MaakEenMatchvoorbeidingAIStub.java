@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class MaakEenMatchvoorbeidingAIStub implements MaakEenMatchvoorbeidingAI {
 
     @Override
-    public Matchvoorbereiding maken(Selectie selectie) {
+    public Matchvoorbereiding maken(Selectie selectie, Integer aantalMatchDelen, Integer matchdeelTijdInMinuten, Integer validatieMaxTijdVerschilTussenMaxEnMin) {
         // TODO elaborate
         return new Matchvoorbereiding(new ArrayList<>(), MatchvoorbereidingGenerationType.AI);
     }

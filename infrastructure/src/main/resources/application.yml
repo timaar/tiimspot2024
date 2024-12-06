@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: tiimspot
+  threads:
+    virtual:
+      enabled: true
+  jpa:
+    open-in-view: false
+  ai:
+    openai:
+      api-key: ${OPEN_API_KEY}
+
+
+stubs:
+  timeout:
+    milliseconds: 10000
+  enabled:
+    - timaar.tiiimspot.stub.PositiesInventoryStub
+    - timaar.tiiimspot.stub.SpelersInventoryStub
+    - timaar.tiiimspot.stub.MaakEenMatchvoorbeidingAIStub
+    - timaar.tiiimspot.stub.MatchvoorbereidingInventoryStub

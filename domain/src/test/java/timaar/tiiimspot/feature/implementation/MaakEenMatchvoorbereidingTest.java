@@ -5,6 +5,7 @@ import timaar.tiiimspot.domain.MatchDeel;
 import timaar.tiiimspot.domain.Matchvoorbereiding;
 import timaar.tiiimspot.domain.Positie;
 import timaar.tiiimspot.domain.Selectie;
+import timaar.tiiimspot.spi.stubs.MaakEenMatchvoorbeidingAIStub;
 import timaar.tiiimspot.spi.stubs.PositiesInventoryStub;
 import timaar.tiiimspot.spi.stubs.SpelersInventoryStub;
 
@@ -23,7 +24,7 @@ class MaakEenMatchvoorbereidingTest {
         var validationMaxTijdVerschilAllowed = 20;
         var positiesInventoryStub = new PositiesInventoryStub();
         var spelersInventoryStub = new SpelersInventoryStub();
-        var maakEenMatchVoorbereiding = new MaakEenMatchvoorbereiding();
+        var maakEenMatchVoorbereiding = new MaakEenMatchvoorbereiding(new MaakEenMatchvoorbeidingAIStub());
         var selectie = new Selectie(positiesInventoryStub.getPosities433(), spelersInventoryStub.getSpelers());
 
         // Call the method to create MatchVoorbereiding

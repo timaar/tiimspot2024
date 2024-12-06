@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import timaar.tiiimspot.domain.Match;
 import timaar.tiiimspot.domain.Selectie;
 import timaar.tiiimspot.feature.MaakEenMatchvoorbereidingFeature;
-import timaar.tiiimspot.spi.MaakEenMatchvoorbeidingAI;
 import timaar.tiiimspot.spi.MatchInventory;
 import timaar.tiiimspot.spi.stubs.PositiesInventoryStub;
 import timaar.tiiimspot.spi.stubs.SpelersInventoryStub;
@@ -30,14 +29,19 @@ import static org.springframework.web.servlet.mvc.method.annotation.MvcUriCompon
 public class MatchController {
 
     private MaakEenMatchvoorbereidingFeature maakEenMatchVoorbereiding;
-    private MaakEenMatchvoorbeidingAI maakEenMatchvoorbereidingAI;
     private MatchInventory matchInventory;
+
+    public MatchController(MaakEenMatchvoorbereidingFeature maakEenMatchVoorbereiding,
+                           MatchInventory matchInventory) {
+        this.maakEenMatchVoorbereiding = maakEenMatchVoorbereiding;
+        this.matchInventory = matchInventory;
+    }
 
     @PostMapping("/maakEenVoorbereiding")
     public ResponseEntity<MatchResponseDto> maakMatchVoorbereiding(@RequestBody MatchRequestDto matchRequestDto) {
         // TODO transform/map requesdto to selectie
         var matchVoorbereiding = maakEenMatchVoorbereiding.maken(new Selectie(new PositiesInventoryStub().getPosities433(), new SpelersInventoryStub().getSpelers()));
-        var matchvoorbereidingAI = maakEenMatchvoorbereidingAI.maken(new Selectie(new PositiesInventoryStub().getPosities433(), new SpelersInventoryStub().getSpelers()));
+        var matchvoorbereidingAI = maakEenMatchVoorbereiding.makenByAI(new Selectie(new PositiesInventoryStub().getPosities433(), new SpelersInventoryStub().getSpelers()));
         var match = new Match(List.of(matchVoorbereiding, matchvoorbereidingAI));
 
         return created(fromMethodCall(on(this.getClass())

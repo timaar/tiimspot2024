@@ -8,6 +8,7 @@ import timaar.tiiimspot.domain.Positie;
 import timaar.tiiimspot.domain.Selectie;
 import timaar.tiiimspot.domain.Speler;
 import timaar.tiiimspot.feature.MaakEenMatchvoorbereidingFeature;
+import timaar.tiiimspot.spi.MaakEenMatchvoorbeidingAI;
 import timaar.tiiimspot.spi.stubs.PositiesInventoryStub;
 
 import java.util.ArrayList;
@@ -20,6 +21,12 @@ import java.util.Set;
 
 @DomainService
 public class MaakEenMatchvoorbereiding implements MaakEenMatchvoorbereidingFeature {
+
+    private MaakEenMatchvoorbeidingAI maakEenMatchvoorbeidingAI;
+
+    public MaakEenMatchvoorbereiding(MaakEenMatchvoorbeidingAI maakEenMatchvoorbeidingAI) {
+        this.maakEenMatchvoorbeidingAI = maakEenMatchvoorbeidingAI;
+    }
 
     private static final List<Positie> POSITION_PRIORITY = List.of(
             PositiesInventoryStub.KEEPER,
@@ -129,6 +136,11 @@ public class MaakEenMatchvoorbereiding implements MaakEenMatchvoorbereidingFeatu
         validateEqualPlayTime(spelerTijd, matchvoorbereiding, validatieMaxTijdVerschilTussenMaxEnMin);
 
         return matchvoorbereiding;
+    }
+
+    @Override
+    public Matchvoorbereiding makenByAI(Selectie selectie, Integer aantalMatchDelen, Integer matchdeelTijdInMinuten, Integer validatieMaxTijdVerschilTussenMaxEnMin) {
+        return maakEenMatchvoorbeidingAI.maken(selectie, aantalMatchDelen, matchdeelTijdInMinuten, validatieMaxTijdVerschilTussenMaxEnMin);
     }
 
     private void addSpelerToOpstelling(Map<Positie, List<Speler>> opstelling, Speler selectedPlayer, Positie positie, Set<Speler> usedPlayers, Integer matchdeelTijdInMinuten, Map<Speler, Integer> spelerTijd) {
