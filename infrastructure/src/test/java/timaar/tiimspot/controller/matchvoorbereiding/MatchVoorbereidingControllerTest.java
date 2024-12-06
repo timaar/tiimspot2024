@@ -4,11 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
-import timaar.tiiimspot.spi.MatchInventory;
+import timaar.tiiimspot.spi.MatchvoorbereidingInventory;
 import timaar.tiimspot.StubConfiguration;
 import timaar.tiimspot.configuration.DomainConfiguration;
 
-@WebMvcTest(MatchController.class)
+@WebMvcTest(MatchVoorbereidingController.class)
 @Import({
         DomainConfiguration.class,
         StubConfiguration.class
@@ -19,6 +19,6 @@ public class MatchVoorbereidingControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private MatchInventory matchvoorbereidingInventory;
+    private MatchvoorbereidingInventory matchvoorbereidingInventory;
 
 }

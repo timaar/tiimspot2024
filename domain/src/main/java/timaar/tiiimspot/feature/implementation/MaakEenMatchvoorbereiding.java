@@ -28,20 +28,6 @@ public class MaakEenMatchvoorbereiding implements MaakEenMatchvoorbereidingFeatu
         this.maakEenMatchvoorbeidingAI = maakEenMatchvoorbeidingAI;
     }
 
-    private static final List<Positie> POSITION_PRIORITY = List.of(
-            PositieInventoryStub.KEEPER,
-            PositieInventoryStub.SPITS,
-            PositieInventoryStub.AANVALLENDE_MIDDENVELDER,
-            PositieInventoryStub.VERDEDIGENDE_MIDDENVELDER,
-            PositieInventoryStub.BOX_TO_BOX_MIDDENVELDER,
-            PositieInventoryStub.LINKER_CENTRALE_VERDEDIGER,
-            PositieInventoryStub.RECHTER_CENTRALE_VERDEDIGER,
-            PositieInventoryStub.LINKERVLEUGELAANVALLER,
-            PositieInventoryStub.RECHTERVLEUGELAANVALLER,
-            PositieInventoryStub.LINKSBACK,
-            PositieInventoryStub.RECHTSBACK
-    );
-
     @Override
     public Matchvoorbereiding maken(Selectie selectie,
                                     Integer aantalMatchDelen,
@@ -112,7 +98,7 @@ public class MaakEenMatchvoorbereiding implements MaakEenMatchvoorbereidingFeatu
             }
 
             // Fill the required positions first
-            for (Positie positie : POSITION_PRIORITY) {
+            for (Positie positie : getPositiePrioriteit()) {
                 if (!selectie.posities().contains(positie) || opstelling.get(positie) != null) {
                     continue;
                 }
@@ -220,5 +206,21 @@ public class MaakEenMatchvoorbereiding implements MaakEenMatchvoorbereidingFeatu
         // Calculate the average and round up to the nearest integer
         double average = (double) total / spelerTijd.size();
         return (int) Math.ceil(average);
+    }
+
+    private List<Positie> getPositiePrioriteit() {
+        return List.of(
+                PositieInventoryStub.KEEPER,
+                PositieInventoryStub.SPITS,
+                PositieInventoryStub.AANVALLENDE_MIDDENVELDER,
+                PositieInventoryStub.VERDEDIGENDE_MIDDENVELDER,
+                PositieInventoryStub.BOX_TO_BOX_MIDDENVELDER,
+                PositieInventoryStub.LINKER_CENTRALE_VERDEDIGER,
+                PositieInventoryStub.RECHTER_CENTRALE_VERDEDIGER,
+                PositieInventoryStub.LINKERVLEUGELAANVALLER,
+                PositieInventoryStub.RECHTERVLEUGELAANVALLER,
+                PositieInventoryStub.LINKSBACK,
+                PositieInventoryStub.RECHTSBACK
+        );
     }
 }

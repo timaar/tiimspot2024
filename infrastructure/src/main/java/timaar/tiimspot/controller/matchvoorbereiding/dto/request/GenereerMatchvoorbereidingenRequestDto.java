@@ -1,4 +1,4 @@
 package timaar.tiimspot.controller.matchvoorbereiding.dto.request;
 
-public record MatchRequestDto() {
+public record GenereerMatchvoorbereidingenRequestDto() {
 }
